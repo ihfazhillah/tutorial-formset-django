@@ -1,0 +1,8 @@
+<h1>{{ kelas.nama }}</h1>
+<hr>
+<h5>Daftar Murid</h5>
+<ul>
+    {% for murid in murids %}
+        <li>{{murid.namadepan}} {{murid.namabelakang}}</li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,11 @@
+<table>
+    <form method="post" action="{% url 'create_kelas' %}">
+            {% csrf_token %}
+            {{ kelas_form.as_table }}
+            {{ murid_form.management_form }}
+            {% for form in murid_form %}
+                {{ form }}
+            {% endfor %}
+            <input type="submit" value="Submit">
+    </form>
+</table>
