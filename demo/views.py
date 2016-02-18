@@ -72,4 +72,5 @@ def edit(request, pk):
     murid_form = MuridFormSet(initial=initial_murid)
     return render(request, 'demo/edit_kelas.html',
                   {'kelas_form':kelas_form,
-                  'murid_form':murid_form})
+                  'murid_form':murid_form,
+                  'kelas':kelas})

@@ -193,6 +193,9 @@ class ViewTest(TestCase):
         self.assertEqual(len(kelas.murid.all()), 2)
         self.assertEqual(kelas.murid.first().namadepan, 'ihfazh')
         self.assertEqual(kelas.murid.first().namabelakang, 'alaminiy')
+        #editing must not create new
+        kelases = Kelas.objects.all()
+        self.assertEqual(len(kelases), 1)
 
     def test_edit_detail_wit_get_request(self):
         Murid.objects.create(kelas=self.kelas, 

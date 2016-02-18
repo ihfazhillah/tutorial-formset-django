@@ -1,5 +1,5 @@
 <table>
-    <form method="post" action="{% url 'create_kelas' %}">
+    <form method="post" action="{% url 'edit_kelas' kelas.id %}">
             {% csrf_token %}
             {{ kelas_form.as_table }}
             {{ murid_form.management_form }}
