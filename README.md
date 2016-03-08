@@ -703,5 +703,21 @@ def edit(request, pk):
                   {'kelas_form':kelas_form,
                   'murid_form':murid_form})
 ```
+
+### Memecah test class ke beberapa file
+Buat folder baru di dalam folder `demo` bernama `tests` dan buat file kosong baru bernama 
+`__init__.py` untuk memberitahu kepada `python` bahwa folder `tests` adalah modul.
+Kemudian, *copykan* file `tests.py` kedalam folder ini. Dan buat tiga file baru. Seperti pohon folder
+dibawah ini 
+```
+demo/tests
+├── __init__.py
+├── test_forms.py
+├── test_models.py
+└── test_views.py
+```
+
+Sebagaimana anda lihat, file `tests.py` sudah tidak ada diatas. Karena sudah saya pindah pindah. 
+Anda bisa melihatnya di repository. Yang intinya, saya pindah sesuai __"Kita lagi test apa?"__
 #### TODO
 - [ ] Menggunakan `modelformset_factory` dan `ModelForm` agar tidak mengulang ulang penulisan di `forms.py`. Karena kita lihat, bahwa form yang kita buat di `forms.py` identik dengan field yang ada di `models.py`
