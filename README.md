@@ -719,5 +719,32 @@ demo/tests
 
 Sebagaimana anda lihat, file `tests.py` sudah tidak ada diatas. Karena sudah saya pindah pindah. 
 Anda bisa melihatnya di repository. Yang intinya, saya pindah sesuai __"Kita lagi test apa?"__
+
+### BUG `django.db.utils.IntegrityError: UNIQUE constraint failed: demo_murid.id`
+Apakah anda memperhatikan method `edit` di `views.py`? Apakah ada bug? Sudah dapat?
+
+Coba tambahkan test berikut ke akhir `test_views.py`
+```python
+def test_editing_murid_from_first_kelas_with_another_murid_linked_to_another_kelas(self):
+        another_kelas = Kelas.objects.create(nama="python")
+        another_kelas.murid.create(namadepan="nem",
+                                   namabelakang="bel")
+        self.kelas.murid.create(namadepan="ini nama depan",
+                                namabelakang="ini nama belakang")
+        data = self.form_data(namakelas='shorof',
+                              namadepan='ihfazh',
+                              namabelakang='alaminiy')
+        response = self.client.post(reverse('edit_kelas', args=[self.kelas.id]),
+                                    data=data)
+        data_kelas = Kelas.objects.get(id=self.kelas.id)
+        murids = data_kelas.murid.all()
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(len(murids), 1)
+        self.assertEqual(murids[0].namadepan, 'ihfazh')
+```
+Nah, pertama tama anda akan mendapatkan error `keyerror:namadepan` atau yang semisalnya yang menunjukkan bahwa program tidak mendapatkan kata kunci yang bernama `namadepan`. Ok, saatnya perbaiki bug ini... Di coba dahulu yah.. atau anda bisa lihat ke repo saya.
+
+> Hint: lihat commit dengan kode 5f452f2
+
 #### TODO
 - [ ] Menggunakan `modelformset_factory` dan `ModelForm` agar tidak mengulang ulang penulisan di `forms.py`. Karena kita lihat, bahwa form yang kita buat di `forms.py` identik dengan field yang ada di `models.py`
