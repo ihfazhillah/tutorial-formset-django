@@ -95,3 +95,20 @@ class ViewTest(TestCase):
         self.assertTrue(response.context['murid_form'])
         self.assertTemplateUsed(response, 'demo/edit_kelas.html')
 
+    def test_editing_murid_from_first_kelas_with_another_murid_linked_to_another_kelas(self):
+        another_kelas = Kelas.objects.create(nama="python")
+        another_kelas.murid.create(namadepan="nem",
+                                   namabelakang="bel")
+        self.kelas.murid.create(namadepan="ini nama depan",
+                                namabelakang="ini nama belakang")
+        data = self.form_data(namakelas='shorof',
+                              namadepan='ihfazh',
+                              namabelakang='alaminiy')
+        response = self.client.post(reverse('edit_kelas', args=[self.kelas.id]),
+                                    data=data)
+        data_kelas = Kelas.objects.get(id=self.kelas.id)
+        murids = data_kelas.murid.all()
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(len(murids), 1)
+        self.assertEqual(murids[0].namadepan, 'ihfazh')
+

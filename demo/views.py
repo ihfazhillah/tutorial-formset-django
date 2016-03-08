@@ -55,18 +55,15 @@ def edit(request, pk):
             kelas_nama = kelas_form.cleaned_data['nama']
             kelas.nama = kelas_nama
             kelas.save()
-
-            for index, muridform in enumerate(murid_form):
-                
-                nama_depan = muridform.cleaned_data['namadepan']
-                nama_belakang = muridform.cleaned_data['namabelakang']
-                murid , created = Murid.objects.get_or_create(id=index, kelas=kelas)
-
-                
-                murid.namadepan = nama_depan
-                murid.namabelakang = nama_belakang
-                murid.save()
-
+            murid = kelas.murid.all()
+            for murid in murid:
+                murid.delete()
+            for murid in murid_form:
+                if murid.cleaned_data:
+                    nama_depan = murid.cleaned_data['namadepan']
+                    nama_belakang = murid.cleaned_data['namabelakang']
+                    kelas.murid.create(namadepan=nama_depan,
+                                       namabelakang=nama_belakang)
             return redirect(reverse('kelas_detail', args=[kelas.pk]))
     kelas_form = KelasForm(initial=initial_kelas)
     murid_form = MuridFormSet(initial=initial_murid)
